@@ -38,7 +38,7 @@ A single-component Grasshopper plugin for sending GRBL and G-code commands to iD
    - Path to your Python 3 executable (`python.exe`).  
    - Developed and tested with Python 3.11.  
 
-[iDraw_GH console](Resources/idraw_gh_Fullpic.png)
+![iDraw_GH console](Resources/idraw_gh_Fullpic.png)
 
 ## How It Works
 
