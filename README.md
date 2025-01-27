@@ -1,4 +1,4 @@
-![iDraw_GH Banner](resources/idraw_gh_titlepic.png)
+![iDraw_GH Banner](Resources/idraw_gh_titlepic.png)
 
 # iDraw_GH
 
