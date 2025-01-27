@@ -19,6 +19,8 @@ A single-component Grasshopper plugin for sending GRBL and G-code commands to iD
      - **Windows:** `C:\Users\<USERNAME>\AppData\Roaming\Grasshopper\Libraries`  
 3. Restart Rhino and Grasshopper.  
 
+![iDraw_GH Component](Resources/idraw_gh_square.png)
+
 ## Component Inputs
 
 1. **Run** (`Boolean`)  
@@ -35,6 +37,8 @@ A single-component Grasshopper plugin for sending GRBL and G-code commands to iD
 4. **Python Path** (`Text`)  
    - Path to your Python 3 executable (`python.exe`).  
    - Developed and tested with Python 3.11.  
+
+[iDraw_GH console](Resources/idraw_gh_Fullpic.png)
 
 ## How It Works
 
