@@ -3,6 +3,7 @@
 # iDraw_GH
 
 A single-component Grasshopper plugin for sending GRBL and G-code commands to iDraw pen plotters. With this plugin, you can easily stream commands to your iDraw plotter directly from Grasshopper.
+!!! As of V1.1.0, this should work for basically ANY GRBL controlled pen plotter through the user input identifier string.
 
 ## Features
 
