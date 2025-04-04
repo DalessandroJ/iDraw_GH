@@ -95,6 +95,15 @@ namespace iDraw_GH
                 return;
             }
 
+            //validate identifier string
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                lastMessage = "Please supply a valid identifier string.";
+                AddRuntimeMessage(GH_RuntimeMessageLevel.Error, lastMessage);
+                DA.SetData(0, lastMessage);
+                return;
+            }
+
             // Validate Python path
             if (!File.Exists(pyPath))
             {
@@ -146,10 +155,10 @@ namespace iDraw_GH
             // Find the iDraw port if needed
             if (cachedPort == null)
             {
-                cachedPort = FindiDrawPort();
+                cachedPort = FindiDrawPort(id);
                 if (cachedPort == null)
                 {
-                    lastMessage = "No iDraw found. Are you sure it's connected?";
+                    lastMessage = "No plotter found. Are you sure it's connected or that you input the correct identifier?";
                     AddRuntimeMessage(GH_RuntimeMessageLevel.Error, lastMessage);
                     DA.SetData(0, lastMessage);
                     return;
@@ -219,7 +228,7 @@ namespace iDraw_GH
 
         // ---------------------------------------------------------------
         // 4) iDraw Port Detection automagically
-        private string FindiDrawPort()
+        private string FindiDrawPort(string id)
         {
             string[] ports = SerialPort.GetPortNames();
             foreach (string port in ports)
@@ -232,7 +241,7 @@ namespace iDraw_GH
                 }, port);
 
                 if (!string.IsNullOrEmpty(response) &&
-                    (response.Contains("DrawCore") || response.Contains("DRAWBOT")))
+                    (response.Contains(id)))
                 {
                     return port; // Found a compatible GRBL device
                 }
