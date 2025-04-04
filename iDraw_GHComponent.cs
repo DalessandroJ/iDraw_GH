@@ -51,6 +51,7 @@ namespace iDraw_GH
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddBooleanParameter("Run", "R", "Connect a button here. Click to run.", GH_ParamAccess.item);
+            pManager.AddTextParameter("Identifier", "I", "The text to identify the connected plotter with. For iDraw use \"DrawCore\", for DrawBot use \"DRAWBOT\". For other GRBL plotters, connect to your plotter through Universal Gcode Sender and send \"$I\", then pick out an identifiable part of the response.", GH_ParamAccess.item);
             pManager.AddTextParameter("Commands", "C", "The list of GRBL and G-code commands to stream to your iDraw. I recommend always starting with $H, and ending with $H and $SLP.", GH_ParamAccess.list);
             pManager.AddTextParameter("G-code Folder", "G", "The directory where G-code files should be saved.", GH_ParamAccess.item);
             pManager.AddTextParameter("Python Path", "P", "File location of your 3.11+ Python.exe.", GH_ParamAccess.item);
@@ -66,14 +67,17 @@ namespace iDraw_GH
             bool run = false;
             DA.GetData(0, ref run);
 
+            string id = string.Empty;
+            DA.GetData(1, ref id);
+
             List<string> commands = new List<string>();
-            DA.GetDataList(1, commands);
+            DA.GetDataList(2, commands);
 
             string gcodeDir = string.Empty;
-            DA.GetData(2, ref gcodeDir);
+            DA.GetData(3, ref gcodeDir);
 
             string pyPath = string.Empty;
-            DA.GetData(3, ref pyPath);
+            DA.GetData(4, ref pyPath);
 
             // If "Run" is false, either show "Idle" if we've never run, or show the last message
             if (!run)
@@ -227,10 +231,12 @@ namespace iDraw_GH
                     return serial.ReadExisting();
                 }, port);
 
-                if (!string.IsNullOrEmpty(response) && response.Contains("DrawCore"))
+                if (!string.IsNullOrEmpty(response) &&
+                    (response.Contains("DrawCore") || response.Contains("DRAWBOT")))
                 {
-                    return port; // Found the iDraw
+                    return port; // Found a compatible GRBL device
                 }
+
             }
 
             AddRuntimeMessage(GH_RuntimeMessageLevel.Error, "No iDraw found.");
